@@ -69,11 +69,68 @@ The JSON output will have the following structure:
 ]
 ```
 
+## Data Transformation Script
+
+### Requirements
+
+- Python 3.x
+- `pandas`
+- `numpy`
+- `datetime`
+
+You can install the necessary Python libraries using pip:
+
+```bash
+pip install pandas numpy
+```
+
+### Script Overview
+
+**Transformation Steps:**
+
+1. **Load Data:** Reads the CSV file (`simplifieddata.csv`) into a DataFrame.
+2. **Process Nearby Places:** Checks and flags nearby places (Airport, Hospital, Market) within a specified distance.
+3. **Extract Room Types:** Extracts and creates columns for different BHK types based on `room_info`.
+4. **Handle Missing Values:** Sets default values for missing `room_info` and adjusts `size_info_numeric`.
+5. **Price and Size Calculations:** Extracts price ranges and calculates sales prices. Converts and fills missing price values.
+6. **Possession and Property Type:** Extracts possession year and calculates time to possession. Identifies property types (Flat, Duplex, Apartment).
+7. **Save Transformed Data:** Saves the transformed DataFrame to a CSV file (`transformed_file.csv`).
+
+**Functions:**
+
+- `check_nearby_places(row, place)`: Checks if a place is within the distance threshold.
+- `extract_bhk_types(room_info)`: Extracts BHK types from `room_info`.
+- `handle_missing_room_info(room_info)`: Sets default room type if missing.
+- `extract_size(size_info)`: Extracts numeric size from `size_info`.
+- `assign_size(row)`: Assigns size based on `room_info`.
+- `emi_to_total_amount(emi_str, tenure_years=5)`: Converts EMI to total amount.
+- `convert_price(price_str)`: Converts price to numeric value.
+- `extract_price_range(main_info)`: Extracts price range from `main_info`.
+- `handle_missing_prices(price_info, min_price, max_price)`: Handles missing price values.
+- `calculate_sales_price(row)`: Calculates sales price based on available price information.
+- `extract_possession_year(possession_info)`: Extracts possession year from `possession_info`.
+- `identify_property_type(main_info)`: Identifies property type based on `main_info`.
+
+### Usage
+
+1. Ensure the `simplifieddata.csv` file is present in the same directory as the script.
+2. Run the script:
+
+   ```bash
+   python data_transformation_script.py
+   ```
+
+   Replace `data_transformation_script.py` with the name of your Python script file.
+
+3. The script will process the data and save the cleaned data to `transformed_file.csv`.
+
 ## Notes
 
 - The script is configured to scrape up to 2000 listings, but you can adjust this limit by modifying the loop in the `fetchAndSaveToFile` function.
 - Ensure that you comply with the website's `robots.txt` and terms of service when scraping data.
 
+
+Feel free to adjust the README based on additional requirements or details specific to your project.
 ## Contributing
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, feel free to create a pull request or open an issue.
